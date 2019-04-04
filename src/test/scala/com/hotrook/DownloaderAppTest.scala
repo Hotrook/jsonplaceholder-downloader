@@ -1,12 +1,11 @@
 package com.hotrook
 
+import com.hotrook.TestData._
 import net.jadler.Jadler
 import org.scalatest.{BeforeAndAfterAll, WordSpec}
-import TestUtils._
-import TestData._
 import play.api.libs.json.Json
 
-class DownloaderAppTest extends WordSpec with BeforeAndAfterAll {
+class DownloaderAppTest extends WordSpec with BeforeAndAfterAll with TestUtils {
 
   override protected def beforeAll(): Unit = {
     Jadler.initJadler()
@@ -28,10 +27,11 @@ class DownloaderAppTest extends WordSpec with BeforeAndAfterAll {
 
       val files = loadFilesFromDirectory(postDirectory)
 
-      val file1 = files.find(_.getName.contains("0.txt")).get
-      val file2 = files.find(_.getName.contains("1.txt")).get
+      val file1 = getFile(files, "post0.json")
+      val file2 = getFile(files, "post1.json")
       assert(Json.parse(post1) == Json.parse(scala.io.Source.fromFile(file1).mkString))
       assert(Json.parse(post2) == Json.parse(scala.io.Source.fromFile(file2).mkString))
     }
   }
+
 }

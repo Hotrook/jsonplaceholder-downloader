@@ -3,10 +3,12 @@ package com.hotrook
 import java.io.File
 
 import net.jadler.Jadler
+import org.scalatest.WordSpec
 
 import scala.reflect.io.Directory
 
-object TestUtils {
+trait TestUtils { this: WordSpec =>
+
   def createEmptyDirectory(directoryPath: String) = {
     val directory = new File(directoryPath)
     directory.mkdir()
@@ -36,6 +38,11 @@ object TestUtils {
       .withStatus(200)
   }
 
-
+  protected def getFile(files: List[File], filename: String) = {
+    files.find(_.getName.contains(filename)) match {
+      case Some(file) => file
+      case None => fail("No files for post")
+    }
+  }
 
 }

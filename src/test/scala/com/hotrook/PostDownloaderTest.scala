@@ -9,7 +9,8 @@ import TestData._
 
 class PostDownloaderTest extends WordSpec
   with BeforeAndAfterAll
-  with Matchers{
+  with Matchers
+  with TestUtils {
 
   override protected def beforeAll(): Unit = {
     Jadler.initJadler()
@@ -34,14 +35,5 @@ class PostDownloaderTest extends WordSpec
 
       assert(result == List())
     }
-  }
-
-  private def configureJadler(body: String, path: String) = {
-    Jadler.onRequest()
-      .havingMethodEqualTo("GET")
-      .havingPathEqualTo(path)
-      .respond()
-      .withBody(body)
-      .withStatus(200)
   }
 }
