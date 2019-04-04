@@ -3,23 +3,18 @@ package com.hotrook
 import java.io.File
 
 import com.hotrook.TestData._
+import com.hotrook.TestUtils._
 import org.scalatest.{BeforeAndAfter, WordSpec}
 import play.api.libs.json.Json
 
-import scala.reflect.io.Directory
-
 class FileWriterTest extends WordSpec with BeforeAndAfter {
 
-  val postDirectory = "src/test/resources/posts"
-
   before {
-    val directory = new File(postDirectory)
-    directory.mkdir()
+    createEmptyDirectory(postDirectory)
   }
 
   after {
-    val directory = new Directory(new File(postDirectory))
-    directory.deleteRecursively()
+    removeDirectoryRecursively(postDirectory)
   }
 
   "FileWriter" should {
@@ -49,14 +44,6 @@ class FileWriterTest extends WordSpec with BeforeAndAfter {
     }
   }
 
-  private def loadFilesFromDirectory(directoryPath: String) = {
-    val directory = new File(directoryPath)
-    if (directory.exists() && directory.isDirectory) {
-      directory.listFiles().toList
-    } else {
-      List()
-    }
-  }
 
 
 }
