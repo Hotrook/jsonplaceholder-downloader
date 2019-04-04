@@ -15,13 +15,12 @@ class FileWriter {
   }
 
   private def writePostToFile(directory: File, post: JsValue, id: Int) = {
-    val fileName = directory + "/post" + id + ".txt"
+    val fileName = directory + "/post" + id + ".json"
     val file = new File(fileName)
     file.createNewFile()
 
     val writer = new BufferedWriter(new io.FileWriter(file))
     writer.write(post.toString())
     writer.close()
-
   }
 }

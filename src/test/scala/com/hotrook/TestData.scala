@@ -24,6 +24,6 @@ object TestData {
   val hostname = "http://localhost:"
   val posts = "/posts"
   val noposts = "/noposts"
-
+  val postDirectory = "src/test/resources/posts"
 
 }

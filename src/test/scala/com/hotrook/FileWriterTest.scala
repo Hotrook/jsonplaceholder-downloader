@@ -1,25 +1,17 @@
 package com.hotrook
 
-import java.io.File
-
 import com.hotrook.TestData._
 import org.scalatest.{BeforeAndAfter, WordSpec}
 import play.api.libs.json.Json
 
-import scala.reflect.io.Directory
-
-class FileWriterTest extends WordSpec with BeforeAndAfter {
-
-  val postDirectory = "src/test/resources/posts"
+class FileWriterTest extends WordSpec with BeforeAndAfter with TestUtils {
 
   before {
-    val directory = new File(postDirectory)
-    directory.mkdir()
+    createEmptyDirectory(postDirectory)
   }
 
   after {
-    val directory = new Directory(new File(postDirectory))
-    directory.deleteRecursively()
+    removeDirectoryRecursively(postDirectory)
   }
 
   "FileWriter" should {
@@ -33,8 +25,8 @@ class FileWriterTest extends WordSpec with BeforeAndAfter {
       val files = loadFilesFromDirectory(postDirectory)
 
       assert(files.size == 2)
-      val file1 = files.find(_.getName.contains("0.txt")).get
-      val file2 = files.find(_.getName.contains("1.txt")).get
+      val file1 = getFile(files, "post0.json")
+      val file2 = getFile(files, "post1.json")
       assert(parsedPost1 == Json.parse(scala.io.Source.fromFile(file1).mkString))
       assert(parsedPost2 == Json.parse(scala.io.Source.fromFile(file2).mkString))
     }
@@ -49,14 +41,6 @@ class FileWriterTest extends WordSpec with BeforeAndAfter {
     }
   }
 
-  private def loadFilesFromDirectory(directoryPath: String) = {
-    val directory = new File(directoryPath)
-    if (directory.exists() && directory.isDirectory) {
-      directory.listFiles().toList
-    } else {
-      List()
-    }
-  }
 
 
 }
